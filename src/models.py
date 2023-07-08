@@ -1,9 +1,16 @@
+
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String, Float,DateTime, Enum
+import enum
+from sqlalchemy import Column, ForeignKey, Integer, String,Float,DateTime,Enum
 from sqlalchemy.orm import relationship, declarative_base
 from sqlalchemy import create_engine
 from eralchemy2 import render_er
+
+class myEnum(enum.Enum):
+    refund = "refund"
+    paid = "paid"
+    cancelled = "cancelled"
 
 Base = declarative_base()
 
@@ -32,7 +39,7 @@ class Bill(Base):
     id = Column(Integer, primary_key=True)
     created_at = Column(DateTime)
     total_price = Column(Float, nullable= False)
-    status = Column(String(30), Enum("paid","pending","refunded"))
+    status = Column(Enum(myEnum))
     shopping_cart = Column(Integer, ForeignKey("shopping_cart"))
 
 
